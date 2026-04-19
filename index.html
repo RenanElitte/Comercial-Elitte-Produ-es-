@@ -1051,28 +1051,25 @@ var PDF_STYLE='<style>'
   +'@media print{.page{padding:20px 24px}}'
   +'</style>';
 
-https://renanelitte.github.io/Comercial-Elitte-Produ-es-/
-function dadosEvento(interno){
-  var ev=TX('nomeEvento'),dt=TX('dataEvento'),cid=TX('cidade');
-  var tipo=tipoContratante(),cont=TX('nomeContratante'),cargo=cargoContratante();
-  var tel=TX('telefone'),email=TX('email'),aniv=TX('aniversario'),obs=TX('obs');
-  var val=validadeTexto();
-  var rows='';
-  if(ev)   rows+='<tr><td>Evento</td><td style="font-weight:700">'+ev+'</td></tr>';
-  if(dt)   rows+='<tr><td>Data(s)</td><td>'+dt+'</td></tr>';
-  if(cid)  rows+='<tr><td>Cidade</td><td>'+cid+'</td></tr>';
-  if(tipo) rows+='<tr><td>Tipo</td><td>'+tipo+'</td></tr>';
-  if(cont) rows+='<tr><td>Contratante</td><td style="font-weight:700">'+cont+(cargo?' · '+cargo:'')+'</td></tr>';
-  if(tel)  rows+='<tr><td>Telefone</td><td>'+tel+'</td></tr>';
-  if(interno && email) rows+='<tr><td>Email</td><td>'+email+'</td></tr>';
-  if(interno && aniv)  rows+='<tr><td>Aniversário</td><td>'+aniv+'</td></tr>';
-  if(obs)  rows+='<tr><td>Observações</td><td style="font-style:italic;color:#555">'+obs+'</td></tr>';
-  var validHtml='';
-  if(val) validHtml='<div class="validity-badge">'+val+'</div>';
-  return rows
-    ? '<h2>Identificação do Show</h2><table class="tbl">'+rows+'</table>'+validHtml
-    : (validHtml?'<h2>Identificação do Show</h2>'+validHtml:'');
-}
+function cabecalhoPDF(titulo, subtitulo){
+  var data = new Date().toLocaleDateString('pt-BR');
+  var hora = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+  var vend = TX('vendedor') || '—';
+
+ return '<div class="pdf-header">'
+  + '<div class="pdf-logo">'
+  + '<img src="logopreto.png" alt="Logo Elitte" style="height:140px;width:auto;display:block;margin-bottom:6px;">'
+  + '<div class="pdf-logo-cnpj">' + ELITTE_CNPJ + '</div>'
+  + '</div>'
+
+  + '<div class="pdf-header-right">'
+  + '<div class="pdf-doc-title">' + titulo + '</div>'
+  + '<div class="pdf-doc-sub">' + (subtitulo || '') + '</div>'
+  + '<div class="pdf-doc-sub">Gerado em ' + data + ' às ' + hora + '</div>'
+  + '<div class="pdf-doc-vend">Vendedor: ' + vend + '</div>'
+  + '</div>'
+
+  + '</div>';
 
 function rodapePDF(){
   return '<div class="pdf-footer">'
